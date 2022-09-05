@@ -1,12 +1,9 @@
-DESCRIPTION = "Allows to customize the fstab"
-PR = "r0"
+do_install_append () {
+    install -d ${D}/run/sdcard
+    cat >> ${D}${sysconfdir}/fstab <<EOF
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+# Add SD card mount
+dev/mmcblk0p3 /run/sdcard ext4 defaults 0 2
 
-SRC_URI += " \
-   file://fstab \
-"
-
-do_install_append(){
-   install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/
+EOF
 }
